@@ -22,8 +22,13 @@ export default function FeaturedConversation() {
           </div>
   
           <div className="grid gap-10 pt-10 md:grid-cols-[1.4fr_0.8fr] md:gap-16 md:pt-14">
-            <div className="min-h-[420px] bg-[#d5d0c6]" />
-  
+          <div className="relative min-h-[420px] overflow-hidden">
+  <img
+    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=80"
+    alt="Editorial conversation"
+    className="absolute inset-0 h-full w-full object-cover grayscale"
+  />
+</div>  
             <div className="flex flex-col justify-between">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-black/45">
