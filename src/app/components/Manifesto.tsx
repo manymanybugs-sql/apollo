@@ -1,8 +1,8 @@
 export default function Manifesto() {
   return (
     <section className="border-t border-black/10 bg-[#f4f1ea]">
-      <div className="mx-auto max-w-4xl px-6 py-24 md:px-10 md:py-32">
-        <p className="text-xs uppercase tracking-[0.3em] text-black/45">
+<div className="mx-auto max-w-4xl px-6 pt-24 pb-16 md:px-10 md:pt-32 md:pb-20">     
+     <p className="text-xs uppercase tracking-[0.3em] text-black/45">
           Why Apollo
         </p>
 

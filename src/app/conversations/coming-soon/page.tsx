@@ -1,5 +1,6 @@
 import Navbar from "../../components/Navbar";
 
+
 export default function ComingSoonConversation() {
   return (
     <main className="min-h-screen bg-[#f4f1ea] text-[#151515]">
