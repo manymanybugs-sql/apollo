@@ -23,9 +23,52 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Apollo — Conversations Shaping Tomorrow",
+  metadataBase: new URL("https://apolloinsight.io"),
+
+  verification: {
+    google: "O5bDbN3hMMA5g3zeouLD_8u95Til9-YnhEbIQGsT440",
+  },
+
+  title: {
+    default: "Apollo",
+    template: "%s | Apollo",
+  },
+
   description:
-    "Conversations with founders, investors and operators building what comes next.",
+    "Conversations with extraordinary founders, investors, operators and builders shaping what comes next.",
+
+  keywords: [
+    "Apollo",
+    "founder interviews",
+    "startup podcast",
+    "venture capital",
+    "technology",
+    "founders",
+    "operators",
+    "builders",
+    "investors",
+  ],
+
+  openGraph: {
+    title: "Apollo",
+    description:
+      "Conversations with extraordinary founders, investors, operators and builders shaping what comes next.",
+    url: "https://apolloinsight.io",
+    siteName: "Apollo",
+    locale: "en_GB",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Apollo",
+    description:
+      "Conversations with extraordinary founders, investors, operators and builders shaping what comes next.",
+  },
+
+  alternates: {
+    canonical: "https://apolloinsight.io",
+  },
 };
 
 export default function RootLayout({
