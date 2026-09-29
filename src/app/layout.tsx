@@ -85,6 +85,6 @@ export default function RootLayout({
 <body className="flex min-h-full flex-col">
   {children}
   <Analytics />
-</body>    </html>
-  );
+</body>    
+</html>  );
 }

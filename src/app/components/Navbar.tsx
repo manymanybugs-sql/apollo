@@ -10,15 +10,13 @@ export default function Navbar() {
 </a>
 
         <nav className="hidden md:flex items-center gap-10 text-sm text-neutral-600">
-          <a href="#archive" className="hover:text-black transition-colors">
-            Archive
-          </a>
+        <a href="/conversations" className="hover:text-black transition-colors">
+  Archive
+</a>
         </nav>
 
         <a
-  href="https://apolloinsights.substack.com"
-  target="_blank"
-  rel="noopener noreferrer"
+  href="/subscribe"
   className="text-sm font-medium text-black transition-opacity hover:opacity-60"
 >
   Subscribe
