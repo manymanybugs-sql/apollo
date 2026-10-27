@@ -32,6 +32,8 @@ export default async function Conversation({
           </h1>
         </header>
 
+        <a href="https://open.spotify.com/show/6DsaIKMrQDyZpGKWkkjDzs" target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex items-center border border-black/25 px-5 py-3 text-sm font-medium transition-colors hover:bg-black hover:text-white">Listen on Spotify ↗</a>
+
         {post.image && (
           <img
             src={post.image}
