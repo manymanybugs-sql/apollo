@@ -8,8 +8,7 @@ export default function Footer() {
             </h2>
   
             <p className="mt-5 max-w-xl text-base leading-7 text-black/60">
-              Every conversation is published on YouTube, with the full transcript
-              available on Substack.
+              Read the stories on Apollo and Substack, or listen to the conversations on Spotify.
             </p>
   
             <div className="mt-8 max-w-[480px] overflow-hidden rounded-xl border border-black/10 bg-white">
@@ -36,6 +35,7 @@ export default function Footer() {
               >
                 Substack
               </a>
+              <a href="https://open.spotify.com/show/6DsaIKMrQDyZpGKWkkjDzs" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-black">Spotify</a>
   
               <a
                 href="https://www.youtube.com/@apolloinsight"
