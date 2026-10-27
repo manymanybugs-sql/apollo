@@ -13,6 +13,7 @@ export default function Navbar() {
         <a href="/conversations" className="hover:text-black transition-colors">
   Archive
 </a>
+        <a href="https://open.spotify.com/show/6DsaIKMrQDyZpGKWkkjDzs" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">Listen</a>
         </nav>
 
         <a
