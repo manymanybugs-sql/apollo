@@ -48,18 +48,39 @@ export type Post = {
     );
   }
   
+  const knownPosts: Post[] = [
+    {
+      slug: "australias-defence-tech-opportunity",
+      title: "Australia's Defence Tech Opportunity",
+      url: "https://apolloinsights.substack.com/p/australias-defence-tech-opportunity",
+      date: "Wed, 04 Nov 2026 12:00:00 GMT",
+      description:
+        "A conversation with Tony Hockey on Australia's defence technology opportunity, scaling companies and the challenges of entering the US market.",
+      image: null,
+      body: [],
+    },
+  ];
+
+  function includeKnownPosts(posts: Post[]): Post[] {
+    const seen = new Set(posts.map((post) => post.slug));
+    return [
+      ...posts,
+      ...knownPosts.filter((post) => !seen.has(post.slug)),
+    ].sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+  }
+
   export async function getPosts(): Promise<Post[]> {
     try {
       const response = await fetch(
         "https://apolloinsights.substack.com/feed",
         { next: { revalidate: 3600 } }
       );
-      if (!response.ok) return [];
+      if (!response.ok) return includeKnownPosts([]);
   
       const xml = await response.text();
       const items = [...xml.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)];
   
-      return items.flatMap(([, item]) => {
+      return includeKnownPosts(items.flatMap(([, item]) => {
         const url = value(item, "link");
         const slug = url.match(/\/p\/([^/?#]+)/)?.[1];
         if (!slug) return [];
@@ -84,8 +105,8 @@ export type Post = {
           image: findImage(item, html),
           body,
         }];
-      });
+      }));
     } catch {
-      return [];
+      return includeKnownPosts([]);
     }
   }
