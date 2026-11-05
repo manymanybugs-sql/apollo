@@ -10,7 +10,7 @@ export default async function Conversations() {
       <Navbar />
       <section className="mx-auto max-w-7xl px-6 py-24 md:px-10">
         <p className="text-xs uppercase tracking-[0.3em] text-black/45">
-          The archive
+          The conversations
         </p>
         <h1 className="mt-8 font-serif text-6xl">Conversations.</h1>
         <p className="mt-8 text-lg text-black/65">
@@ -24,7 +24,7 @@ export default async function Conversations() {
       className="group grid gap-6 border-b border-black/20 py-8 md:grid-cols-[4rem_1fr_13rem] md:gap-10"
     >
       <span className="pt-1 text-xs tracking-[0.2em] text-black/40">
-        {String(index + 1).padStart(2, "0")}
+        {String(posts.length - index).padStart(2, "0")}
       </span>
 
       <div>
