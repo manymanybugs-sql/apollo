@@ -18,9 +18,4 @@ export type Editorial = {
   spotifyUrl?: string;
 };
 
-export const editorialBySlug: Record<string, Editorial> = {
-  "how-do-venture-capital-investors": {
-    introduction:
-      "Inside early-stage investing: what actually matters when backing a founder. A conversation with Nicholas Ooi of Investible on founder-market fit, AI, and what separates promising startups from businesses worth backing.",
-  },
-};
+export const editorialBySlug: Record<string, Editorial> = {};
