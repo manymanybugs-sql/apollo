@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import SubscribePopup from "./components/SubscribePopup";
 import {
   Geist,
   Geist_Mono,
@@ -81,6 +82,7 @@ export default function RootLayout({
     >
 <body className="flex min-h-full flex-col">
   {children}
+  <SubscribePopup />
   <Analytics />
 </body>    
 </html>  );
