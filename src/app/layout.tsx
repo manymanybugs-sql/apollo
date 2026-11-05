@@ -67,9 +67,6 @@ export const metadata: Metadata = {
       "Conversations with extraordinary founders, investors, operators and builders shaping what comes next.",
   },
 
-  alternates: {
-    canonical: "https://apolloinsight.io",
-  },
 };
 
 export default function RootLayout({
