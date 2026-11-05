@@ -82,8 +82,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
 <body className="flex min-h-full flex-col">
-  {children}
   <ApolloIntro />
+  {children}
   <SubscribePopup />
   <Analytics />
 </body>    
