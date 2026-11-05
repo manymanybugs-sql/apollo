@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getPosts } from "../lib/posts";
+
+export const metadata: Metadata = {
+  title: "Conversations",
+  description: "Conversations with Australian founders, investors and builders on venture capital, AI, technology and building companies.",
+  alternates: { canonical: "/conversations" },
+};
 
 export default async function Conversations() {
     const posts = await getPosts();
