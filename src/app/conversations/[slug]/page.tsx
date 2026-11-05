@@ -46,8 +46,23 @@ export default async function Conversation({ params }: Props) {
     ? null
     : published.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: post.title,
+    description: intro,
+    url: `https://apolloinsight.io/conversations/${post.slug}`,
+    isPartOf: { "@type": "WebSite", name: "Apollo Insight", url: "https://apolloinsight.io" },
+    isBasedOn: post.url,
+    ...(post.image ? { primaryImageOfPage: post.image } : {}),
+    ...(Number.isNaN(published.getTime()) ? {} : { datePublished: published.toISOString() }),
+  };
+
   return (
     <main className="min-h-screen bg-[#f4f1ea] text-[#151515]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+      }} />
       <Navbar />
       <article className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
         <Link href="/conversations" className="text-sm text-black/50 hover:text-black">
