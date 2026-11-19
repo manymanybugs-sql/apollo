@@ -8,12 +8,23 @@ const fieldClass =
 export default function GuestSuggestion() {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
+  const [emailLink, setEmailLink] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (state === "sending") return;
 
     const fields = new FormData(event.currentTarget);
+    const company = String(fields.get("company") ?? "").trim().replace(/\s+/g, " ");
+    const subject = `Apollo guest suggestion — ${company}`;
+    const message = [
+      `Founder: ${fields.get("founder")}`,
+      `Company: ${company}`,
+      `Website or profile: ${fields.get("link")}`,
+      "",
+      String(fields.get("topic") ?? ""),
+    ].join("\r\n");
+    setEmailLink(`mailto:dara@apolloinsight.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`);
     setState("sending");
 
     try {
@@ -86,7 +97,14 @@ export default function GuestSuggestion() {
                   {state === "sending" ? "Sending…" : "Send suggestion"}
                 </button>
               </fieldset>
-              {state === "error" && <p role="alert">{error}</p>}
+              {state === "error" && (
+                <div>
+                  <p role="alert">{error}</p>
+                  <a href={emailLink} className="mt-2 inline-block underline underline-offset-4">
+                    Email this suggestion instead
+                  </a>
+                </div>
+              )}
             </form>
           )}
         </details>

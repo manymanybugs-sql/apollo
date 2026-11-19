@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Origin: "https://apolloinsight.io",
         Referer: "https://apolloinsight.io/",
       },
       body: JSON.stringify({
@@ -52,9 +53,10 @@ export async function POST(request: Request) {
         ...(email ? { email, _replyto: email } : {}),
         _subject: `Apollo guest suggestion — ${company.replace(/\s+/g, " ")}`,
         _captcha: "false",
-        _url: "https://apolloinsight.io/#suggest-a-founder",
+        _url: "https://apolloinsight.io/",
       }),
-      signal: AbortSignal.timeout(8000),
+      redirect: "error",
+      signal: AbortSignal.timeout(20000),
     });
 
     const delivery = await result.json();
@@ -62,8 +64,14 @@ export async function POST(request: Request) {
         !/activat|confirm/i.test(delivery.message ?? "")) {
       return Response.json({ success: true });
     }
-  } catch {
-    // Keep the visitor’s form filled in so they can retry.
+    console.warn("Guest suggestion delivery rejected", {
+      status: result.status,
+      activationRequested: /activat|confirm/i.test(delivery.message ?? ""),
+      captchaRequested: /captcha|robot/i.test(delivery.message ?? ""),
+      rateLimited: /limit|many|spam/i.test(delivery.message ?? ""),
+    });
+  } catch (error) {
+    console.warn("Guest suggestion delivery failed", error instanceof Error ? error.name : "UnknownError");
   }
 
   return Response.json({ error: deliveryError }, { status: 502 });
