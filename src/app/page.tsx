@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import FeaturedConversation from "./components/FeaturedConversation";
+import GuestSuggestion from "./components/GuestSuggestion";
 import Manifesto from "./components/Manifesto";
 import Footer from "./components/Footer";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <FeaturedConversation />
+      <GuestSuggestion />
       <Manifesto />
       <Footer />
     </main>

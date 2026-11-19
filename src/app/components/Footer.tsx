@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
     return (
       <footer className="border-t border-black/10 bg-[#f4f1ea]">
@@ -25,8 +27,8 @@ export default function Footer() {
             </div>
           </div>
   
-          <div className="mt-14 flex items-center justify-between border-t border-black/10 pt-5 text-sm text-black/50">
-            <div className="flex gap-6">
+          <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-black/10 pt-5 text-sm text-black/50">
+            <div className="flex flex-wrap gap-x-6 gap-y-3">
               <a
                 href="https://apolloinsights.substack.com"
                 target="_blank"
@@ -45,6 +47,9 @@ export default function Footer() {
               >
                 YouTube
               </a>
+              <Link href="/#suggest-a-founder" className="transition-colors hover:text-black">
+                Suggest a founder
+              </Link>
             </div>
   
             <p>© {new Date().getFullYear()} Apollo</p>
