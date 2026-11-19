@@ -8,66 +8,29 @@ const fieldClass =
   "mt-2 block w-full rounded-md border border-black/25 bg-white px-3 py-2.5 text-base focus-visible:outline-2 focus-visible:outline-offset-2";
 
 export default function GuestSuggestion() {
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [error, setError] = useState("");
   const [emailLink, setEmailLink] = useState("");
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
+  function openEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (state === "sending") return;
 
     const fields = new FormData(event.currentTarget);
-    const founder = String(fields.get("Founder") ?? "").trim();
-    const topic = String(fields.get("Conversation topic") ?? "").trim();
+    const founder = String(fields.get("founder") ?? "").trim();
+    const company = String(fields.get("company") ?? "").trim().replace(/\s+/g, " ");
+    const website = String(fields.get("website") ?? "").trim();
+    const topic = String(fields.get("topic") ?? "").trim();
     const email = String(fields.get("email") ?? "").trim();
-    const link = String(fields.get("Website or profile") ?? "").trim();
-    const company = String(fields.get("Company") ?? "").trim().replace(/\s+/g, " ");
     const subject = `Apollo guest suggestion — ${company}`;
     const message = [
       `Founder: ${founder}`,
       `Company: ${company}`,
-      `Website or profile: ${link}`,
+      `Website or profile: ${website}`,
+      ...(email ? [`Contact email: ${email}`] : []),
       "",
       topic,
     ].join("\r\n");
-    setEmailLink(`mailto:${inbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`);
-    const url = URL.parse(/^[a-z][a-z0-9+.-]*:\/\//i.test(link) ? link : `https://${link}`);
-    if (!founder || !company || !topic || !url || !["http:", "https:"].includes(url.protocol) ||
-        !url.hostname.includes(".") || url.username || url.password || /\s/.test(link)) {
-      setError("Check the founder, company, website or profile link, and conversation topic.");
-      setState("error");
-      return;
-    }
-
-    setState("sending");
-
-    try {
-      const response = await fetch(`https://formsubmit.co/ajax/${inbox}`, {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: new URLSearchParams({
-          Founder: founder,
-          Company: company,
-          "Website or profile": url.href,
-          "Conversation topic": topic,
-          ...(email ? { email, _replyto: email } : {}),
-          _subject: subject,
-          _honey: String(fields.get("_honey") ?? ""),
-          _url: "https://apolloinsight.io/",
-        }),
-        signal: AbortSignal.timeout(15000),
-      });
-      const result = await response.json();
-      if (!response.ok || ![true, "true"].includes(result?.success) ||
-          /activat|confirm|captcha/i.test(result?.message ?? "")) {
-        throw new Error("Delivery failed");
-      }
-
-      setState("sent");
-    } catch {
-      setError("Your suggestion couldn’t be sent. Please try again.");
-      setState("error");
-    }
+    const href = `mailto:${inbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    setEmailLink(href);
+    window.location.href = href;
   }
 
   return (
@@ -83,53 +46,43 @@ export default function GuestSuggestion() {
           <summary className="w-fit cursor-pointer rounded-full bg-[#151515] px-5 py-3 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black">
             Suggest a founder
           </summary>
-          {state === "sent" ? (
-            <p className="mt-5" role="status">Thanks, I’ll take a look.</p>
-          ) : (
-            <form action={`https://formsubmit.co/${inbox}`} method="post" onSubmit={submit} className="mt-6 space-y-5">
-              <fieldset disabled={state === "sending"} className="space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block text-sm font-medium">
-                    Founder name
-                    <input name="Founder" className={fieldClass} required maxLength={120} />
-                  </label>
-                  <label className="block text-sm font-medium">
-                    Company name
-                    <input name="Company" className={fieldClass} required maxLength={120} />
-                  </label>
-                </div>
-                <label className="block text-sm font-medium">
-                  Company website or founder profile
-                  <input name="Website or profile" type="text" inputMode="url" autoCapitalize="none" className={fieldClass} required maxLength={500} />
-                </label>
-                <label className="block text-sm font-medium">
-                  What would you like to hear them talk about?
-                  <textarea name="Conversation topic" className={fieldClass} rows={4} required maxLength={2000} />
-                </label>
-                <label className="block text-sm font-medium">
-                  Your email <span className="font-normal text-black/60">(optional)</span>
-                  <input name="email" type="email" autoComplete="email" className={fieldClass} maxLength={254} />
-                </label>
-                <div hidden>
-                  <label>
-                    Leave this blank
-                    <input name="_honey" tabIndex={-1} autoComplete="off" />
-                  </label>
-                </div>
-                <button type="submit" className="rounded-full bg-[#151515] px-5 py-3 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black disabled:opacity-60">
-                  {state === "sending" ? "Sending…" : "Send suggestion"}
-                </button>
-              </fieldset>
-              {state === "error" && (
-                <div>
-                  <p role="alert">{error}</p>
-                  <a href={emailLink} className="mt-2 inline-block underline underline-offset-4">
-                    Email this suggestion instead
-                  </a>
-                </div>
-              )}
-            </form>
-          )}
+          <form action={`mailto:${inbox}`} method="post" onSubmit={openEmail} onChange={() => setEmailLink("")} className="mt-6 space-y-5">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="block text-sm font-medium">
+                Founder name
+                <input name="founder" className={fieldClass} required maxLength={120} />
+              </label>
+              <label className="block text-sm font-medium">
+                Company name
+                <input name="company" className={fieldClass} required maxLength={120} />
+              </label>
+            </div>
+            <label className="block text-sm font-medium">
+              Company website or founder profile
+              <input name="website" type="text" inputMode="url" autoCapitalize="none" spellCheck={false} className={fieldClass} required maxLength={500} />
+            </label>
+            <label className="block text-sm font-medium">
+              What would you like to hear them talk about?
+              <textarea name="topic" className={fieldClass} rows={4} required maxLength={2000} />
+            </label>
+            <label className="block text-sm font-medium">
+              Your email <span className="font-normal text-black/60">(optional)</span>
+              <input name="email" type="email" autoComplete="email" className={fieldClass} maxLength={254} />
+            </label>
+            <p className="text-sm text-black/65">This opens a draft in your email app for you to send.</p>
+            <button type="submit" className="rounded-full bg-[#151515] px-5 py-3 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black">
+              Open email draft
+            </button>
+            {emailLink && (
+              <p role="status" className="text-sm">
+                <a href={emailLink} className="underline underline-offset-4">Reopen the draft</a>
+                {" or email "}
+                <a href={`mailto:${inbox}`} className="underline underline-offset-4">{inbox}</a>
+                {" directly."}
+              </p>
+            )}
+          </form>
+          <noscript><p className="mt-5">Email your suggestion to <a href={`mailto:${inbox}`}>{inbox}</a>.</p></noscript>
         </details>
       </div>
     </section>
