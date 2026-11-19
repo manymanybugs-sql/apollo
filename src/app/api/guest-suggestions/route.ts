@@ -41,11 +41,10 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
         Origin: "https://apolloinsight.io",
         Referer: "https://apolloinsight.io/",
       },
-      body: JSON.stringify({
+      body: new URLSearchParams({
         Founder: founder,
         Company: company,
         "Website or profile": url.href,
@@ -59,16 +58,17 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(20000),
     });
 
-    const delivery = await result.json();
-    if (result.ok && [true, "true"].includes(delivery.success) &&
-        !/activat|confirm/i.test(delivery.message ?? "")) {
+    const delivery = await result.json().catch(() => null);
+    if (result.ok && [true, "true"].includes(delivery?.success) &&
+        !/activat|confirm/i.test(delivery?.message ?? "")) {
       return Response.json({ success: true });
     }
     console.warn("Guest suggestion delivery rejected", {
       status: result.status,
-      activationRequested: /activat|confirm/i.test(delivery.message ?? ""),
-      captchaRequested: /captcha|robot/i.test(delivery.message ?? ""),
-      rateLimited: /limit|many|spam/i.test(delivery.message ?? ""),
+      contentType: result.headers.get("content-type"),
+      activationRequested: /activat|confirm/i.test(delivery?.message ?? ""),
+      captchaRequested: /captcha|robot/i.test(delivery?.message ?? ""),
+      rateLimited: /limit|many|spam/i.test(delivery?.message ?? ""),
     });
   } catch (error) {
     console.warn("Guest suggestion delivery failed", error instanceof Error ? error.name : "UnknownError");
