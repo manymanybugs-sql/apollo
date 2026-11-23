@@ -47,10 +47,10 @@ export default function GuestSuggestion() {
     <section id="suggest-a-founder" aria-labelledby="guest-suggestion-heading" className="scroll-mt-24 border-t border-black/10">
       <div className="mx-auto max-w-4xl px-6 py-14 md:px-10 md:py-20">
         <h2 id="guest-suggestion-heading" className="font-serif text-4xl leading-none tracking-[-0.04em] md:text-5xl">
-          Know a founder I should speak to?
+          Know a founder we should speak to?
         </h2>
         <p className="mt-5 max-w-xl text-base leading-7 text-black/65">
-          Tell me who they are and what you’d want to hear them talk about. You can put yourself forward too.
+          Tell us who they are and what you’d want to hear them talk about. You can put yourself forward too.
         </p>
         <details className="mt-6 max-w-xl">
           <summary className="w-fit cursor-pointer rounded-full bg-[#151515] px-5 py-3 text-sm font-medium text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black">
