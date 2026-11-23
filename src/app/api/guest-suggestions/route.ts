@@ -19,7 +19,8 @@ function slackSection(text: string) {
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  if (request.headers.get("sec-fetch-site") === "cross-site" || (origin && origin !== new URL(request.url).origin)) {
+  const host = request.headers.get("host") ?? new URL(request.url).host;
+  if (request.headers.get("sec-fetch-site") === "cross-site" || (origin && URL.parse(origin)?.host !== host)) {
     return Response.json({ error: "Please submit the form from Apollo Insight." }, { status: 403 });
   }
 
